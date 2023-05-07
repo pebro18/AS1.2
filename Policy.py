@@ -1,27 +1,22 @@
+from email import policy
 
-import random
-from Actions import Actions
+
 class Policy:
-    def __init__(self, discount_factor = 0.9):
-        self.policy = None
+    def __init__(self, discount_factor=0.1, lenght=4, width=4):
+        self.policy = [[0 for i in range(lenght)] for j in range(width)]
         self.discount_factor = discount_factor
 
-    def select_action(self, state, position_state):
-        number = random.randrange(0,4)
-        return Actions(number)
-    
-    def value_iteration(self , states):
+    def select_action(self, states):
 
-        # initialize V(s) arbitrarily       
-        # repeat
-        #     delta = 0
-        #     for each s in S:
-        #         v = V(s)
-        #         V(s) = max_a(sum_s'(T(s,a,s') * (R(s,a,s') + gamma * V(s'))))
-        #         delta = max(delta, |v - V(s)|)
-        # until delta < theta
+        states = list(states)
+        for index, state in enumerate(states):
+            calculation = state[0].reward + self.discount_factor * \
+                self.policy[state[0].position[0]][state[0].position[1]]
+            states[index] = tuple((state[0], calculation, state[2]))
+        chosen_action = max(states, key=lambda x: x[1])
+        return chosen_action
 
-
-        threshold = 0.01
-
-        self.policy = None
+    def calculate_value(self, value_state):
+        if value_state[0].terminal:
+            return value_state[0].reward
+        return value_state[0].reward + self.discount_factor * value_state[1]

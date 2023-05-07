@@ -17,7 +17,7 @@ class Maze:
         for x_axis in range(len(self.maze_rewards)):
             for y_axis in range(len(self.maze_rewards[x_axis])):
                 self.maze_states[x_axis][y_axis].position = (x_axis, y_axis)
-                self.maze_states[x_axis][y_axis].reward = self.maze_rewards[x_axis][y_axis]
+                self.maze_states[x_axis][y_axis].reward = self.maze_rewards[x_axis][y_axis]  # noqa: E501
 
     def set_terminal(self, state, is_terminal=True):
         self.maze_states[state[0]][state[1]].terminal = is_terminal

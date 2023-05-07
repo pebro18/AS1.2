@@ -1,8 +1,7 @@
-import time
+from itertools import count
 import Agent
 import Maze
 import Policy
-
 
 def main():
     maze = Maze.Maze()
@@ -16,17 +15,19 @@ def main():
     maze.set_terminal((0, 3), True)
     maze.set_terminal((3, 0), True)
 
-    policy = Policy.Policy()
+    policy = Policy.Policy(discount_factor=0.9, lenght=4, width=4)
     agent = Agent.Agent(maze, policy, maze.maze_states[3][2])
 
+    print("Initial iteration:")
     maze.print_maze_states()
     agent.print_position()
     print()
 
+    count = 0
     while (True):
         agent.act()
-        # agent.value_function()
-
+        count += 1
+        print(f"Iteration: {count}")
         maze.print_maze_states()
         agent.print_position()
         print()
