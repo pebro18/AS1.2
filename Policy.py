@@ -1,5 +1,5 @@
 class Policy:
-    def __init__(self, discount_factor=0.1, lenght=4, width=4):
+    def __init__(self, discount_factor, lenght=4, width=4):
         self.policy = [[0 for i in range(lenght)] for j in range(width)]
         self.discount_factor = discount_factor
 
@@ -17,3 +17,8 @@ class Policy:
         if value_state[0].terminal:
             return value_state[0].reward
         return value_state[0].reward + self.discount_factor * value_state[1]
+
+    def print_policy(self):
+        print("Policy:")
+        for row in self.policy:
+            print(row)
