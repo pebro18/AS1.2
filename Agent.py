@@ -39,7 +39,7 @@ class Agent:
                 v = state[1]
                 action = self.policy.select_action(possible_states)
                 possible_states[index] = action
-                delta = max(delta, abs(v - possible_states[index][0].reward))
+                delta = max(delta, abs(v - action[1]))
             if delta < self.threshold:
                 break
 
