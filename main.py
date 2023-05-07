@@ -1,4 +1,3 @@
-from itertools import count
 import Agent
 import Maze
 import Policy

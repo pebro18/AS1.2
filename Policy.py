@@ -1,6 +1,3 @@
-from email import policy
-
-
 class Policy:
     def __init__(self, discount_factor=0.1, lenght=4, width=4):
         self.policy = [[0 for i in range(lenght)] for j in range(width)]
