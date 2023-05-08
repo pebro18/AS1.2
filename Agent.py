@@ -8,7 +8,7 @@ class Agent:
         self.total_reward = 0
 
         self.policy = policy
-        self.threshold = 0.01
+        self.threshold = 0.1
 
     def act(self):
         possible_states = []

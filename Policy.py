@@ -7,8 +7,8 @@ class Policy:
 
         states = list(states)
         for index, state in enumerate(states):
-            calculation = state[0].reward + (self.discount_factor * \
-                self.policy[state[0].position[0]][state[0].position[1]])
+            calculation = state[0].reward + (self.discount_factor *
+                                             self.policy[state[0].position[0]][state[0].position[1]])
             states[index] = tuple((state[0], calculation, state[2]))
         chosen_action = max(states, key=lambda x: x[1])
         return chosen_action

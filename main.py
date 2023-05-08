@@ -2,6 +2,7 @@ import Agent
 import Maze
 import Policy
 
+
 def main():
     maze = Maze.Maze()
     maze.set_reward((0, 3), 40)
@@ -35,7 +36,6 @@ def main():
         if agent.state.terminal:
             break
         # time.sleep(2)
-
 
 
 if __name__ == "__main__":
