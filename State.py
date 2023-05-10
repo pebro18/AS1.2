@@ -3,3 +3,4 @@ class State:
         self.position = None
         self.reward = rewards
         self.terminal = is_terminal
+        self.value = 0

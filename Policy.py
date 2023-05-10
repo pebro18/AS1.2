@@ -1,22 +1,31 @@
+from Actions import Actions
+
+
 class Policy:
     def __init__(self, discount_factor, lenght=4, width=4):
         self.policy = [[0 for i in range(lenght)] for j in range(width)]
         self.discount_factor = discount_factor
 
-    def select_action(self, states):
+    def select_action(self, state):
+        all_possible_neighbors = self.get_neighbors(state)
+        best_action = max(all_possible_neighbors, key=lambda x: x[0])
+        return best_action[1]
 
-        states = list(states)
-        for index, state in enumerate(states):
-            calculation = state[0].reward + (self.discount_factor *
-                                             self.policy[state[0].position[0]][state[0].position[1]])
-            states[index] = tuple((state[0], calculation, state[2]))
-        chosen_action = max(states, key=lambda x: x[1])
-        return chosen_action
-
-    def calculate_value(self, value_state):
-        if value_state[0].terminal:
-            return value_state[0].reward
-        return value_state[0].reward + self.discount_factor * value_state[1]
+    def get_neighbors(self, state):
+        neighbors = []
+        if 0 <= state.position[1] - 1 <= len(self.policy) - 1:
+            neighbors.append(
+                (self.policy[state.position[0]][state.position[1] - 1], Actions.LEFT))
+        if 0 <= state.position[1] + 1 <= len(self.policy) - 1:
+            neighbors.append(
+                (self.policy[state.position[0]][state.position[1] + 1], Actions.RIGHT))
+        if 0 <= state.position[0] - 1 <= len(self.policy[0]) - 1:
+            neighbors.append(
+                (self.policy[state.position[0] - 1][state.position[1]], Actions.UP))
+        if 0 <= state.position[0] + 1 <= len(self.policy[0]) - 1:
+            neighbors.append(
+                (self.policy[state.position[0] + 1][state.position[1]], Actions.DOWN))
+        return neighbors
 
     def print_policy(self):
         print("Policy:")
