@@ -20,14 +20,6 @@ class Agent:
 
     def value_function(self):
 
-        # initialize V(s) arbitrarily
-        # repeat
-        #     delta = 0
-        #     for each s in S:
-        #         v = V(s)
-        #         V(s) = max_a(sum_s'(T(s,a,s') * (R(s,a,s') + gamma * V(s'))))
-        #         delta = max(delta, |v - V(s)|)
-        # until delta < theta
         count = 0
         while True:
             count += 1
@@ -45,7 +37,6 @@ class Agent:
 
                     for s in possible_states:
                         v = column.value
-                        # print(f"Current state: {column.position}, value: {v}")
                         if self.maze.maze_states[x][y].terminal:
                             copy_of_maze[x][y].value = self.maze.maze_states[x][y].reward
                         else:
@@ -55,7 +46,6 @@ class Agent:
                         delta = max(delta, abs(v - copy_of_maze[x][y].value))
 
             self.maze.maze_states = copy_of_maze
-            # self.print_maze_values()
             if delta < self.threshold:
                 break
 
@@ -75,7 +65,6 @@ class Agent:
         for index, state in enumerate(states):
             calculation = (self.discount_factor *
                            state[0].value) + (current_state_reward)
-            # print(f"Value of the next state {calculation}, action: {state[2]}")
             states[index] = tuple((state[0], calculation, state[2]))
 
         total_sum = sum(states[x][1] for x in range(len(states)))
