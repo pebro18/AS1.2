@@ -3,14 +3,14 @@ import copy
 
 
 class Agent:
-    def __init__(self, maze, policy, start_state):
+    def __init__(self, maze, policy, start_state, discount_factor=0.9):
         self.maze = maze
         self.state = start_state
         self.total_reward = 0
 
         self.policy = policy
         self.threshold = 0.1
-        self.discount_factor = 1
+        self.discount_factor = discount_factor
 
     def act(self):
         action = self.policy.select_action(self.state)

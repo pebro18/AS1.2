@@ -2,9 +2,8 @@ from Actions import Actions
 
 
 class Policy:
-    def __init__(self, discount_factor, lenght=4, width=4):
+    def __init__(self, lenght=4, width=4):
         self.policy = [[0 for i in range(lenght)] for j in range(width)]
-        self.discount_factor = discount_factor
 
     def select_action(self, state):
         all_possible_neighbors = self.get_neighbors(state)
