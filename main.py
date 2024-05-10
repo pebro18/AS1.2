@@ -16,7 +16,7 @@ def main():
     maze.set_terminal((3, 0), True)
 
     policy = Policy.Policy(lenght=4, width=4)
-    agent = Agent.Agent(maze, policy, maze.maze_states[3][2], 0.9)
+    agent = Agent.Agent(maze, policy, maze.maze_states[3][2], 0.9, True)
 
     print("Initial iteration:")
     maze.print_maze_states()
@@ -31,7 +31,7 @@ def main():
         agent.act()
         count += 1
         print(f"Agent Iteration: {count}")
-        maze.print_maze_states()
+        #maze.print_maze_states()
         agent.print_position()
         print(f"total reward: {agent.total_reward}")
         print()

@@ -3,7 +3,7 @@ import copy
 
 
 class Agent:
-    def __init__(self, maze, policy, start_state, discount_factor=0.9):
+    def __init__(self, maze, policy, start_state, discount_factor=0.9, stochastic=False):
         self.maze = maze
         self.state = start_state
         self.total_reward = 0
@@ -11,6 +11,9 @@ class Agent:
         self.policy = policy
         self.threshold = 0.1
         self.discount_factor = discount_factor
+
+        self.is_stochastic = stochastic
+        self.stochastic_probability = [0.1, 0.1, 0.7, 0.1]
 
     def act(self):
         action = self.policy.select_action(self.state)
@@ -39,9 +42,14 @@ class Agent:
                         if self.maze.maze_states[x][y].terminal:
                             copy_of_maze[x][y].value = self.maze.maze_states[x][y].reward
                         else:
-                            action = self.calculate_value(
-                                possible_states, self.maze.maze_states[x][y].reward
-                            )
+                            if self.is_stochastic:
+                                action = self.stochastic_calculate_value(
+                                    possible_states, self.maze.maze_states[x][y].reward
+                                )
+                            else:
+                                action = self.calculate_value(
+                                    possible_states, self.maze.maze_states[x][y].reward
+                                )
                             copy_of_maze[x][y].value = action[1]
                         delta = max(delta, abs(v - copy_of_maze[x][y].value))
 
@@ -72,6 +80,18 @@ class Agent:
                 current_state_reward
             )
             states[index] = tuple((state[0], calculation, state[2]))
+
+        total_sum = sum(states[x][1] for x in range(len(states)))
+        chosen_action = max(states, key=lambda x: x[1])
+        return chosen_action + tuple((total_sum,))
+    
+    # extra opdracht module voor AS1.2
+    def stochastic_calculate_value(self, states, current_state_reward):
+        for index, state in enumerate(states):
+            calculation = (self.discount_factor * state[0].value) + (
+                current_state_reward
+            )
+            states[index] = tuple((state[0], calculation * self.stochastic_probability[state[2].value], state[2]))
 
         total_sum = sum(states[x][1] for x in range(len(states)))
         chosen_action = max(states, key=lambda x: x[1])
