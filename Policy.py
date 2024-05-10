@@ -4,6 +4,7 @@ from Actions import Actions
 class Policy:
     def __init__(self, lenght=4, width=4):
         self.policy = [[0 for i in range(lenght)] for j in range(width)]
+        self.stochastic = False
 
     def select_action(self, state):
         all_possible_neighbors = self.get_neighbors(state)
@@ -25,6 +26,8 @@ class Policy:
             neighbors.append(
                 (self.policy[state.position[0] + 1][state.position[1]], Actions.DOWN))
         return neighbors
+    
+
 
     def print_policy(self):
         print("Policy:")

@@ -32,8 +32,7 @@ class Agent:
             for x, row in enumerate(self.maze.maze_states):
                 for y, column in enumerate(row):
 
-                    possible_states = self.get_all_possible_neighbors(
-                        x, y, column)
+                    possible_states = self.get_all_possible_neighbors(x, y, column)
 
                     for s in possible_states:
                         v = column.value
@@ -41,7 +40,8 @@ class Agent:
                             copy_of_maze[x][y].value = self.maze.maze_states[x][y].reward
                         else:
                             action = self.calculate_value(
-                                possible_states, self.maze.maze_states[x][y].reward)
+                                possible_states, self.maze.maze_states[x][y].reward
+                            )
                             copy_of_maze[x][y].value = action[1]
                         delta = max(delta, abs(v - copy_of_maze[x][y].value))
 
@@ -57,14 +57,20 @@ class Agent:
         possible_states = []
         for action in Actions:
             possible_states.append(
-                (self.maze.step(action, column), self.maze.maze_states[x][y].value, action))
+                (
+                    self.maze.step(action, column),
+                    self.maze.maze_states[x][y].value,
+                    action,
+                )
+            )
 
         return possible_states
 
     def calculate_value(self, states, current_state_reward):
         for index, state in enumerate(states):
-            calculation = (self.discount_factor *
-                           state[0].value) + (current_state_reward)
+            calculation = (self.discount_factor * state[0].value) + (
+                current_state_reward
+            )
             states[index] = tuple((state[0], calculation, state[2]))
 
         total_sum = sum(states[x][1] for x in range(len(states)))

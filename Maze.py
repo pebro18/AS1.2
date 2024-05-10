@@ -5,15 +5,14 @@ from State import State
 class Maze:
     def __init__(self, length=4, width=4):
         self.maze_rewards = [[-1 for i in range(length)] for j in range(width)]
-        self.maze_states = None
+        self.maze_states = [[State() for i in range(len(self.maze_rewards))]
+                            for j in range(len(self.maze_rewards[0]))]
         self.actions = Actions.Actions
 
     def set_reward(self, state, reward):
         self.maze_rewards[state[0]][state[1]] = reward
 
     def assign_maze_states(self):
-        self.maze_states = [[State() for i in range(len(self.maze_rewards))]
-                            for j in range(len(self.maze_rewards[0]))]
         for x_axis in range(len(self.maze_rewards)):
             for y_axis in range(len(self.maze_rewards[x_axis])):
                 self.maze_states[x_axis][y_axis].position = (x_axis, y_axis)
